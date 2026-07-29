@@ -81,10 +81,10 @@ defmodule Tzdata.DataLoader do
 
   defp do_latest_file_size_by_head({:error, error}), do: {:error, error}
 
-  defp do_latest_file_size_by_head({_tag, resp_code, _headers}) when resp_code != 200,
+  defp do_latest_file_size_by_head({:ok, {resp_code, _headers}}) when resp_code != 200,
     do: {:error, :did_not_get_ok_response}
 
-  defp do_latest_file_size_by_head({_tag, _resp_code, headers}) do
+  defp do_latest_file_size_by_head({:ok, {_resp_code, headers}}) do
     headers
     |> content_length_from_headers
   end
@@ -171,6 +171,32 @@ defmodule Tzdata.DataLoader do
   defp data_dir, do: Tzdata.Util.data_dir()
 
   defp http_client() do
-    Application.get_env(:tzdata, :http_client, Tzdata.HTTPClient.Hackney)
+    with nil <- Application.get_env(:tzdata, :http_client) do
+      cond do
+        Code.ensure_loaded?(Req) -> Tzdata.HTTPClient.Req
+        Code.ensure_loaded?(:hackney) -> Tzdata.HTTPClient.Hackney
+        true -> raise missing_http_client_message()
+      end
+    end
+  end
+
+  defp missing_http_client_message() do
+    """
+    missing dependency :req or :hackney
+
+    Tzdata requires a HTTP client in order to automatically update timezone
+    database.
+
+    In order to use the built-in adapter based on Hackney HTTP client, add the
+    following to your mix.exs dependencies list:
+
+        {:req, "~> 0.7"}
+
+    or
+
+        {:hackney, "~> 4.0"}
+
+    See README for more information.
+    """
   end
 end
