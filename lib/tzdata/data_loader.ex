@@ -187,7 +187,7 @@ defmodule Tzdata.DataLoader do
     Tzdata requires a HTTP client in order to automatically update timezone
     database.
 
-    In order to use the built-in adapter based on Hackney HTTP client, add the
+    In order to use a built-in HTTP Client adapter, add the
     following to your mix.exs dependencies list:
 
         {:req, "~> 0.7"}

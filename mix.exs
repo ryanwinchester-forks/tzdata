@@ -27,7 +27,7 @@ defmodule Tzdata.Mixfile do
 
   defp deps do
     [
-      {:req, "~> 0.4", optional: true},
+      {:req, "~> 0.5", optional: true},
       {:hackney, "~> 1.17 or ~> 4.0", optional: true},
       {:ex_doc, "~> 0.21", only: :dev, runtime: false}
     ]
@@ -44,7 +44,7 @@ defmodule Tzdata.Mixfile do
   defp env do
     [
       autoupdate: :enabled,
-      data_dir: nil,
+      data_dir: nil
     ]
   end
 

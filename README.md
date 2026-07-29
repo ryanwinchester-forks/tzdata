@@ -31,7 +31,7 @@ Tzdata also needs an HTTP client to download timezone data updates: add either
 defp deps do
   [
     {:tzdata, "~> 1.2"},
-    {:req, "~> 0.4"},
+    {:req, "~> 0.7"},
   ]
 end
 ```
@@ -113,7 +113,7 @@ Both [Req](https://hex.pm/packages/req) and [Hackney](https://hex.pm/packages/ha
 supported out of the box as optional dependencies — add one of them to your mix file:
 
 ```elixir
-{:req, "~> 0.4"}
+{:req, "~> 0.7"}
 ```
 
 or
