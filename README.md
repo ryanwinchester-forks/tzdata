@@ -22,7 +22,7 @@ iex> Tzdata.tzdata_version
 
 ## Getting started
 
-To use the Tzdata library with Elixir 1.8+, add it to the dependencies in your mix file.
+To use the Tzdata library with Elixir 1.15+, add it to the dependencies in your mix file.
 Tzdata also needs an HTTP client to download timezone data updates: add either
 [Req](https://hex.pm/packages/req) or [Hackney](https://hex.pm/packages/hackney)
 (see the "HTTP client" section below):

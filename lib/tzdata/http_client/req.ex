@@ -30,15 +30,23 @@ if Code.ensure_loaded?(Req) do
       [
         headers: headers,
         redirect: Keyword.get(options, :follow_redirect, false),
-        # The downloaded tar.gz must be returned as-is, so disable Req's
+        # The downloaded tar.gz must be returned as-is, so don't send
+        # accept-encoding (on by default in Req < 0.7) and disable Req's
         # automatic decompression and body decoding.
+        compressed: false,
         raw: true
       ]
     end
 
-    # Req (v0.4+) return headers as a map of lists.
+    # Req (v0.4+) returns headers as a map of lists.
     defp normalize_headers(headers) when is_map(headers) do
       for {name, values} <- headers, value <- values, do: {name, value}
+    end
+
+    # Req has a `legacy_headers_as_lists: true` option, for
+    # backwards-compatibility.
+    defp normalize_headers(headers) when is_list(headers) do
+      headers
     end
   end
 end

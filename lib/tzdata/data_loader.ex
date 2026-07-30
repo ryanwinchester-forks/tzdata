@@ -170,33 +170,5 @@ defmodule Tzdata.DataLoader do
 
   defp data_dir, do: Tzdata.Util.data_dir()
 
-  defp http_client() do
-    with nil <- Application.get_env(:tzdata, :http_client) do
-      cond do
-        Code.ensure_loaded?(Req) -> Tzdata.HTTPClient.Req
-        Code.ensure_loaded?(:hackney) -> Tzdata.HTTPClient.Hackney
-        true -> raise missing_http_client_message()
-      end
-    end
-  end
-
-  defp missing_http_client_message() do
-    """
-    missing dependency :req or :hackney
-
-    Tzdata requires a HTTP client in order to automatically update timezone
-    database.
-
-    In order to use a built-in HTTP Client adapter, add the
-    following to your mix.exs dependencies list:
-
-        {:req, "~> 0.7"}
-
-    or
-
-        {:hackney, "~> 4.0"}
-
-    See README for more information.
-    """
-  end
+  defp http_client, do: Tzdata.Util.http_client!()
 end
